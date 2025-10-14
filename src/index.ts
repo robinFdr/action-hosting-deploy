@@ -88,11 +88,11 @@ async function run() {
     console.log(
       "Created a temporary file with Application Default Credentials."
     );
+    console.log("message is:", message);
     endGroup();
 
     if (isProductionDeploy) {
       startGroup("Deploying to production site");
-      console.log("message is:", message);
       const deployment = await deployProductionSite(gacFilename, {
         projectId,
         target,
