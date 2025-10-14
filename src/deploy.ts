@@ -87,6 +87,7 @@ async function execWithCredentials(
   const force = opts.force;
 
   try {
+    console.log("RF: executing firebase-tools with args:", args);
     await exec(
       `npx firebase-tools@${firebaseToolsVersion}`,
       [
