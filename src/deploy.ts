@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { info } from "@actions/core";
 import { exec } from "@actions/exec";
 
 export type SiteDeploy = {
@@ -87,7 +88,7 @@ async function execWithCredentials(
   const force = opts.force;
 
   try {
-    console.log("RF: executing firebase-tools with args:", args);
+    info(`RF: executing firebase-tools with args: ${args}`);
     await exec(
       `npx firebase-tools@${firebaseToolsVersion}`,
       [

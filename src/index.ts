@@ -52,7 +52,7 @@ const target = getInput("target");
 const firebaseToolsVersion = getInput("firebaseToolsVersion");
 const disableComment = getInput("disableComment");
 const force = getInput("force") === "true";
-const message = getInput("message");
+const message = getInput("message", { trimWhitespace: true });
 
 async function run() {
   const isPullRequest = !!context.payload.pull_request;
@@ -92,6 +92,7 @@ async function run() {
 
     if (isProductionDeploy) {
       startGroup("Deploying to production site");
+      console.log("message is:", message);
       const deployment = await deployProductionSite(gacFilename, {
         projectId,
         target,
