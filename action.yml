@@ -59,6 +59,10 @@ inputs:
     description: "Pass 'true' to use the --force flag with firebase deploy. This will automatically accept any warning or prompts during deploy. Use with caution."
     default: "false"
     required: false
+  message:
+    description: "Pass an optional --message with firebase deploy."
+    default: "" # explicit instead of implicit
+    required: false
 outputs:
   urls:
     description: The url(s) deployed to

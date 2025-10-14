@@ -46,6 +46,7 @@ type DeployConfig = {
   // Optional version specification for firebase-tools. Defaults to `latest`.
   firebaseToolsVersion?: string;
   force?: boolean;
+  message?: string;
 };
 
 export type ChannelDeployConfig = DeployConfig & {
@@ -136,8 +137,15 @@ export async function deployPreview(
   gacFilename: string,
   deployConfig: ChannelDeployConfig
 ) {
-  const { projectId, channelId, target, expires, firebaseToolsVersion, force } =
-    deployConfig;
+  const {
+    projectId,
+    channelId,
+    target,
+    expires,
+    firebaseToolsVersion,
+    force,
+    message,
+  } = deployConfig;
 
   const deploymentText = await execWithCredentials(
     [
@@ -145,6 +153,9 @@ export async function deployPreview(
       channelId,
       ...(target ? ["--only", target] : []),
       ...(expires ? ["--expires", expires] : []),
+      ...(message && message.trim().length > 0
+        ? ["--message", message.trim()]
+        : []),
     ],
     projectId,
     gacFilename,
@@ -162,11 +173,18 @@ export async function deployProductionSite(
   gacFilename,
   productionDeployConfig: ProductionDeployConfig
 ) {
-  const { projectId, target, firebaseToolsVersion, force } =
+  const { projectId, target, firebaseToolsVersion, force, message } =
     productionDeployConfig;
 
   const deploymentText = await execWithCredentials(
-    ["deploy", "--only", `hosting${target ? ":" + target : ""}`],
+    [
+      "deploy",
+      "--only",
+      `hosting${target ? ":" + target : ""}`,
+      ...(message && message.trim().length > 0
+        ? ["--message", message.trim()]
+        : []),
+    ],
     projectId,
     gacFilename,
     { firebaseToolsVersion, force }
